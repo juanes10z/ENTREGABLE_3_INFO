@@ -21,15 +21,11 @@ class TomografiaModelo:
 
     def obtener_imagen(self):
             
-            i = 1
-            while i <= 26:
-                if i <= 9:
-                    m = "0"+str(i)
-                im = dcmread(r"Circle of Willis\1-0"+str(m)+".dcm")
-                self.repositorio.append(im)
-                i += 1
-            print("Archivo Dicom cargado correctamente")
 
-    def obtener_rutas_imagenes(self, carpeta_tomografia):
-
-        pass
+        for i in range(1,140):
+          if i <= 9:
+            m = "0"+str(i)
+            im = dcmread(r"Circle of Willis\1-0"+str(m)+".dcm")
+            self.repositorio.append(im)
+        print("Archivo Dicom cargado correctamente")
+        return self.repositorio
