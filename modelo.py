@@ -25,7 +25,6 @@ class BaseDatos(object):
     def picture_creator(self, imagen):
         ds = pydicom.dcmread(os.path.join(self.carpeta, imagen))
 
-        # Aplicar la presentación (Value of Interest - VOI LUT)
         pixel_data = apply_voi_lut(ds.pixel_array, ds)
 
         fig, ax = plt.subplots()
