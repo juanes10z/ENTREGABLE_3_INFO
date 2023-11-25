@@ -51,20 +51,17 @@ class VentanaPrincipal(QMainWindow):
         self.lista_archivos = os.listdir(self.carpeta)
         self.slider.valueChanged.connect(self.cargar)
         self.current_index = self.slider.value() - 1 
-        self.img = QLabel(self)
 
 
-        
 
-        
 
-        
     def cargar(self):
         indice = self.slider.value()
         if 0 <= indice < len(self.lista_archivos):
             imagen = self.lista_archivos[indice]
             self.__mi_controlador.img_conextion(imagen)
             pixmap = QPixmap("temp_image.png")
+            
             self.img.setPixmap(pixmap)
             os.remove("temp_image.png")
 
