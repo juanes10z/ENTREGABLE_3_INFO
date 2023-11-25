@@ -52,7 +52,7 @@ class VentanaPrincipal(QMainWindow):
         self.slider.valueChanged.connect(self.cargar)
         self.current_index = self.slider.value() - 1 
         self.img = QLabel(self)
-        
+
         
 
         
@@ -67,4 +67,5 @@ class VentanaPrincipal(QMainWindow):
 
     def setControlador(self, c):
         self.__mi_controlador = c
+
 

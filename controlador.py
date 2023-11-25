@@ -19,7 +19,7 @@ class coordinador:
     def mostrar_ventana_principal(self):
         if not self.__mi_ventana_principal:
             self.__mi_ventana_principal = VentanaPrincipal()
-            self.__mi_ventana_principal.setControlador(self)
+        self.__mi_ventana_principal.setControlador(self)
         self.__mi_ventana_principal.show()
 
 def main():
