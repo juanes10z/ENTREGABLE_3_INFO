@@ -4,25 +4,26 @@ import sys
 from PyQt5.QtWidgets import QApplication
 
 class coordinador:
-    
-    def __init__(self,ventana_login,modelo):
-
+    def __init__(self, ventana_login, modelo):
         self.__mi_ventana_login = ventana_login
         self.__mi_modelo = modelo
-        self.__mi_ventana_principal = None
+        self.__mi_ventana_principal = VentanaPrincipal()
 
-    def validarusuario(self,l,p):
-        return self.__mi_modelo.validarusuario(l,p)
+    def validarusuario(self, l, p):
+        return self.__mi_modelo.validarusuario(l, p)
+
     
+    def img_conextion(self, imagen):
+        self.__mi_modelo.picture_creator(imagen)
+
     def mostrar_ventana_principal(self):
         if not self.__mi_ventana_principal:
-            self.__mi_ventana_principal = VentanaPrincipal(self)
+            self.__mi_ventana_principal = VentanaPrincipal()
+            self.__mi_ventana_principal.setControlador(self)
         self.__mi_ventana_principal.show()
 
-
 def main():
-    imagenes = TomografiaModelo()
-    imagenes.obtener_imagen()
+    modelo = Modelo()
     app = QApplication(sys.argv)
     mi_vista_login = Ventanalogin()
     mi_modelo = BaseDatos()
@@ -34,4 +35,4 @@ def main():
     sys.exit(app.exec_())
 
 if __name__ == "__main__":
-    main()   
+    main()

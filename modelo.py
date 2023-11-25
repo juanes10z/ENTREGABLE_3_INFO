@@ -1,4 +1,6 @@
-from pydicom import dcmread
+from PyQt5.QtCore import QObject
+import pydicom
+import matplotlib.pyplot as plt
 
 class BaseDatos(object):
 
@@ -15,17 +17,22 @@ class BaseDatos(object):
     def validarusuario(self,l,p):
         return(self.__login == l) and (self.__password == p)       
 
-class TomografiaModelo:
+
+class Modelo(QObject):
     def __init__(self):
-        self.repositorio = []
+        super().__init__()
+        self.carpeta = "Circle of Willis"
 
-    def obtener_imagen(self):
-            
+    def picture_creator(self, imagen):
+        ds = pydicom.dcmread(self.carpeta+"/"+imagen)
+        pixel_data = ds.pixel_array
+        if (len(pixel_data.shape)) == 3:
+            slice_index = pixel_data.shape[0] // 2
+            selected_slice = pixel_data[slice_index, :, :]
+            plt.imshow(selected_slice, cmap=plt.cm.bone)
 
-        for i in range(1,140):
-          if i <= 9:
-            m = "0"+str(i)
-            im = dcmread(r"Circle of Willis\1-0"+str(m)+".dcm")
-            self.repositorio.append(im)
-        print("Archivo Dicom cargado correctamente")
-        return self.repositorio
+        else: 
+            plt.imshow(imagen, cmap= plt.cm.bone)
+        plt.axis("off")
+        plt.savefig("temp_image.png")
+

@@ -3,7 +3,8 @@ from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox, QMainWindow, QLi
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtCore import Qt
 from PyQt5.uic import loadUi
-
+import os
+from controlador import *
 
 class Ventanalogin(QDialog):
     def __init__(self):
@@ -37,42 +38,33 @@ class Ventanalogin(QDialog):
     
     def setControlador(self, c):
         self.__mi_controlador = c
-
+        self.setup()
 
 class VentanaPrincipal(QMainWindow):
-    def __init__(self, coordinador):
+    def __init__(self):
         super().__init__()
-        self.coordinador = coordinador
-        self.setWindowTitle("Visualizador de Imágenes")
+        loadUi("MainWindow.ui", self)
+        self.setup()
+
+    def setup(self):
+        self.carpeta = "Circle of Willis"
+        self.lista_archivos = os.listdir(self.carpeta)
+        self.slider.valueChanged.connect(self.cargar)
+        self.current_index = self.slider.value() - 1 
+        self.img = QLabel(self)
         
-        # Crear widgets
-        self.label_imagen = QLabel(self)
-        self.slider_imagen = QSlider(Qt.Horizontal, self)
+        
 
-        # Configurar diseño de la ventana
-        central_widget = QWidget()
-        layout = QVBoxLayout(central_widget)
-        layout.addWidget(self.label_imagen)
-        layout.addWidget(self.slider_imagen)
+        
+    def cargar(self):
+        indice = self.slider.value()
+        if 0 <= indice < len(self.lista_archivos):
+            imagen = self.lista_archivos[indice]
+            self.__mi_controlador.img_conextion(imagen)
+            pixmap = QPixmap("temp_image.png")
+            self.img.setPixmap(pixmap)
+            os.remove("temp_image.png")
 
-        # Configurar la ventana principal
-        self.setCentralWidget(central_widget)
-        self.slider_imagen.valueChanged.connect(self.actualizar_imagen)
+    def setControlador(self, c):
+        self.__mi_controlador = c
 
-        # Configurar datos iniciales
-        self.repositorio = self.coordinador.obtener_imagenes()
-        self.num_imagenes = len(self.repositorio)
-        self.slider_imagen.setMaximum(self.num_imagenes - 1)
-
-        # Mostrar la primera imagen al inicio
-        self.actualizar_imagen(0)
-
-    def actualizar_imagen(self, indice):
-        if 0 <= indice < self.num_imagenes:
-            imagen = self.repositorio[indice]
-            pixmap = QPixmap.fromImage(imagen)
-            self.label_imagen.setPixmap(pixmap)
-
-
-    def mostrar_ventana_principal(self):
-        self.show()
