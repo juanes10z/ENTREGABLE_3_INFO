@@ -53,6 +53,9 @@ class VentanaPrincipal(QMainWindow):
         self.current_index = self.slider.value() - 1 
         self.img = QLabel(self)
 
+
+        
+
         
 
         

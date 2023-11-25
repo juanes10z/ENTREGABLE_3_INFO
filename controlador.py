@@ -8,6 +8,7 @@ class coordinador:
         self.__mi_ventana_login = ventana_login
         self.__mi_modelo = modelo
         self.__mi_ventana_principal = VentanaPrincipal()
+        self.__mi_ventana_principal.setControlador(self)
 
     def validarusuario(self, l, p):
         return self.__mi_modelo.validarusuario(l, p)
@@ -23,7 +24,7 @@ class coordinador:
         self.__mi_ventana_principal.show()
 
 def main():
-    modelo = Modelo()
+
     app = QApplication(sys.argv)
     mi_vista_login = Ventanalogin()
     mi_modelo = BaseDatos()
