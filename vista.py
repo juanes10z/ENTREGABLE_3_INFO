@@ -31,7 +31,6 @@ class Ventanalogin(QDialog):
             texto = "Usuario o Contraseña incorrectos"
             msj = QMessageBox.information(self, "Alerta", texto, QMessageBox.Ok, QMessageBox.Cancel)
        
-
     def reject_(self):
         self.campo_usuario.setText("")
         self.campo_password.setText("")
@@ -51,6 +50,7 @@ class VentanaPrincipal(QMainWindow):
         self.lista_archivos = os.listdir(self.carpeta)
         self.slider.valueChanged.connect(self.cargar)
         self.current_index = self.slider.value() - 1 
+        self.Exit_button.clicked.connect(self.salida_)
 
 
 
@@ -68,4 +68,8 @@ class VentanaPrincipal(QMainWindow):
     def setControlador(self, c):
         self.__mi_controlador = c
 
+    def salida_(self):
+
+        self.__mi_controlador.mostrar_login()
+        self.close()
 
